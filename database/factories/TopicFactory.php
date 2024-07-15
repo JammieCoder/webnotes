@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Module;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class TopicFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->sentence(2),
+            'module_id'=> Module::factory()
         ];
     }
 }
