@@ -15,9 +15,7 @@ class NoteSeeder extends Seeder
      */
     public function run(): void
     {
-        $notes = Note::factory(300)
-            ->recycle(Module::all())
-            ->create();
+        $notes = Note::factory(300)->create();
         foreach($notes as $note){
             $note
                 ->topics()

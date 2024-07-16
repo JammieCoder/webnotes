@@ -11,10 +11,6 @@ class Note extends Model
 {
     use HasFactory;
 
-    public function module(): BelongsTo{
-        return $this->belongsTo(Module::class);
-    }
-
     public function topics(): BelongsToMany{
         return $this->belongsToMany(Topic::class)->withTimestamps();
     }

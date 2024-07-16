@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->string('filename')->unique();
             $table->unsignedTinyInteger('week');
-            $table->foreignIdFor(Module::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
         Schema::create('note_topic', function(Blueprint $table){

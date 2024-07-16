@@ -15,9 +15,6 @@ class Module extends Model
         return $this->hasMany(Topic::class);
     }
 
-    public function notes(): HasMany {
-        return $this->hasMany(Note::class);
-    }
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }

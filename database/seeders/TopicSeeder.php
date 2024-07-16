@@ -14,6 +14,8 @@ class TopicSeeder extends Seeder
      */
     public function run(): void
     {
-        Topic::factory(10)->recycle(Module::all())->create();
+        foreach(Module::all() as $module){
+            Topic::factory(10)->create(['module_id' => $module->id]);
+        }
     }
 }
