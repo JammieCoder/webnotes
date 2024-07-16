@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Module;
+use App\Models\Note;
+use App\Models\Topic;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +21,12 @@ return new class extends Migration
             $table->foreignIdFor(Module::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
+        Schema::create('note_topic', function(Blueprint $table){
+            $table->foreignIdFor(Topic::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Note::class)->constrained()->cascadeOnDelete();
+            $table->timestamps();
+            $table->primary(['topic_id', 'note_id']);
+        });
     }
 
     /**
@@ -26,6 +34,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('note_topics');
         Schema::dropIfExists('notes');
     }
 };
