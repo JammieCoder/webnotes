@@ -47,7 +47,7 @@
                 <div class="flex flex-auto bg-gray-300 divide-x divide-gray-400">
                     @foreach(\App\Models\Module::all() as $module)
                         <a
-                            href="{{ url('/modules/'.$module->id) }}"
+                            href="{{ url('/notes') }}"
                             class="text-base text-center px-3 pb-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                             >
                             {{$module->title}}
@@ -57,7 +57,7 @@
             </nav>
         </header>
 
-        <main class="mt-6">
+        <main class="">
             {{$slot}}
         </main>
 

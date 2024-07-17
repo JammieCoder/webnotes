@@ -4,6 +4,7 @@
             "./resources/**/*.blade.php",
             "./resources/**/*.js",
             "./resources/**/*.vue",
+            "./storage/app/**/*.*"
         ],
         theme: {
             extend: {},

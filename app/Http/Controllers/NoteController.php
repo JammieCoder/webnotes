@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
+use App\Models\Module;
 use App\Models\Note;
+use App\Models\Topic;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller
 {
@@ -13,7 +17,15 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+       // $module = Module::where('user_id', 1)
+       //                 ->find(1);
+       // $topics = $module->topics;
+       // $notes = new Collection();
+       // foreach($topics as $topic){
+       //     $notes = $notes->merge($topic->notes);
+       // }
+        $notes=Note::all();
+        return view('notes.index',['notes'=>$notes,'request' => request()]);
     }
 
     /**
