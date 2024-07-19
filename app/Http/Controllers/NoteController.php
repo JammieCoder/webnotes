@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Module;
 use App\Models\Note;
 use App\Models\Topic;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,17 +16,33 @@ class NoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-       // $module = Module::where('user_id', 1)
-       //                 ->find(1);
-       // $topics = $module->topics;
-       // $notes = new Collection();
-       // foreach($topics as $topic){
-       //     $notes = $notes->merge($topic->notes);
-       // }
-        $notes=Note::all();
-        return view('notes.index',['notes'=>$notes,'request' => request()]);
+        $module=$request->module;
+        $topics_arr=$request->topics; //array of topic ids
+        $weeks=$request->weeks; //array
+
+        //If no module is passed then return to dashboard
+        if(is_null($module))
+            return redirect()->view('dashboard');
+        //Find the relating module record or fail if not found
+        $module=Module::findOrFail($module);
+
+        //if no topic filters passed, get them from the module
+        if(is_null($topics_arr)|$topics_arr==[])
+            $topics=$module->topics;
+        else{
+            $topics=new Collection();
+            foreach($topics_arr as $topic){
+                $topics=$topics->merge(Topic::where('module_id',$module->id)->find($topic));
+            }
+        }
+
+        $notes = new Collection();
+        foreach($topics as $topic){
+            $notes = $notes->merge($topic->notes()->get());
+        }
+         return view('notes.index',['notes'=>$notes, 'topics'=>$topics, 'module'=>$module]);
     }
 
     /**

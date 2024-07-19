@@ -1,7 +1,7 @@
 <x-layout>
     <div class="grid grid-cols-8 grid-rows-1">
         <div class="flex flex-col divide-y-2 divide-gray-400 border-2 border-gray-600 mt-10">
-            @foreach(\App\Models\Topic::where('module_id',1)->get() as $topic)
+            @foreach($topics as $topic)
                 <a>{{$topic->name}}</a>
             @endforeach
             <hr>

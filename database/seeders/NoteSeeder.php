@@ -7,6 +7,7 @@ use App\Models\Note;
 use App\Models\Topic;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class NoteSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class NoteSeeder extends Seeder
             $note
                 ->topics()
                 ->attach(rand(1,Topic::count()));
+            Storage::put($note->filename,'');
         }
     }
 }
