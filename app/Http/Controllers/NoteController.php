@@ -19,12 +19,18 @@ class NoteController extends Controller
     public function index(Request $request)
     {
         $module=$request->module;
-        $topics_arr=$request->topics; //array of topic ids
-        $weeks=$request->weeks; //array
+        $filters=array_filter($request->all(),fn($k)=> $k!='_token',
+            ARRAY_FILTER_USE_KEY);
+        $topics_arr=array_filter($filters,fn($k) => $k[0]=='t',
+            ARRAY_FILTER_USE_KEY); //array of topic ids
+        $weeks_arr=array_filter($filters,fn($k) => $k[0]=='w',
+            ARRAY_FILTER_USE_KEY);
+        $topics_arr = array_map(fn($v)=>substr($v,1), array_keys($topics_arr));
+        $weeks_arr = array_map(fn($v)=>substr($v,1), array_keys($weeks_arr));
 
         //If no module is passed then return to dashboard
         if(is_null($module))
-            return redirect()->view('dashboard');
+            return redirect()->route('dashboard');
         //Find the relating module record or fail if not found
         $module=Module::findOrFail($module);
 
@@ -42,7 +48,7 @@ class NoteController extends Controller
         foreach($topics as $topic){
             $notes = $notes->merge($topic->notes()->get());
         }
-         return view('notes.index',['notes'=>$notes, 'topics'=>$topics, 'module'=>$module]);
+         return view('notes.index',['notes'=>$notes, 'topics'=>$topics, 'module'=>$module, 'filters'=>$filters]);
     }
 
     /**

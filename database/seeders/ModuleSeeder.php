@@ -14,6 +14,10 @@ class ModuleSeeder extends Seeder
      */
     public function run(): void
     {
-        Module::factory(4)->recycle(User::all()->last())->create();
+        $titles = ['Neural Networks','Final Year Project','Security of Real World Systems', 'Dependable and Distributed Systems','Networking'];
+        foreach(User::all() as $user){
+            foreach($titles as $title)
+                Module::factory()->create(['title'=>$title,'user_id'=>$user->id]);
+        }
     }
 }
