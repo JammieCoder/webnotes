@@ -1,6 +1,6 @@
 <x-layout>
     <div class="grid grid-cols-8 grid-rows-1">
-        <form action="/notes?module={{$module}}" method="GET">
+        <form action="/modules/{{$module->id}}" method="GET">
             @csrf
             <div class="flex flex-col divide-y-2 divide-gray-400 border-2
                 border-gray-600 mt-10" x-data='{ checked: @json($filters) }'>

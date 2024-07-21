@@ -37,7 +37,7 @@ class ModuleController extends Controller
      */
     public function show(Module $module)
     {
-      return redirect()->action([NoteController::class,'index'],['module'=>$module]);
+      return redirect()->action([NoteController::class,'index'],['module'=>$module->id,'filters'=>request()->all()]);
     }
 
     /**

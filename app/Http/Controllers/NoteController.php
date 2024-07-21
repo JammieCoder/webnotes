@@ -8,8 +8,11 @@ use App\Models\Module;
 use App\Models\Note;
 use App\Models\Topic;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
 
 class NoteController extends Controller
 {
@@ -18,35 +21,40 @@ class NoteController extends Controller
      */
     public function index(Request $request)
     {
-        $module=$request->module;
-        $filters=array_filter($request->all(),fn($k)=> $k!='_token',
-            ARRAY_FILTER_USE_KEY);
-        $topics_arr=array_filter($filters,fn($k) => $k[0]=='t',
-            ARRAY_FILTER_USE_KEY); //array of topic ids
-        $weeks_arr=array_filter($filters,fn($k) => $k[0]=='w',
-            ARRAY_FILTER_USE_KEY);
-        $topics_arr = array_map(fn($v)=>substr($v,1), array_keys($topics_arr));
-        $weeks_arr = array_map(fn($v)=>substr($v,1), array_keys($weeks_arr));
+        //process week and topic filters
+        $topics_arr=[];
+        $weeks_arr=[];
+        $filters=[];
+        if(!is_null($request->filters)){
+            $filters=array_filter($request->filters,fn($k)=> $k!='_token',
+                ARRAY_FILTER_USE_KEY);
+            $filters=array_map(fn()=>true, $filters);
+            $topics_arr=array_filter($filters,fn($k) => $k[0]=='t',
+                ARRAY_FILTER_USE_KEY); //array of topic ids
+            $weeks_arr=array_filter($filters,fn($k) => $k[0]=='w',
+                ARRAY_FILTER_USE_KEY);
+            $topics_arr = array_map(fn($v)=>substr($v,1), array_keys($topics_arr));
+            $weeks_arr = array_map(fn($v)=>substr($v,1), array_keys($weeks_arr));
+        }
 
+        $module=$request->module;
         //If no module is passed then return to dashboard
         if(is_null($module))
             return redirect()->route('dashboard');
         //Find the relating module record or fail if not found
         $module=Module::findOrFail($module);
+        $topics=$module->topics;
 
-        //if no topic filters passed, get them from the module
-        if(is_null($topics_arr)|$topics_arr==[])
-            $topics=$module->topics;
-        else{
-            $topics=new Collection();
-            foreach($topics_arr as $topic){
-                $topics=$topics->merge(Topic::where('module_id',$module->id)->find($topic));
-            }
-        }
-
+        // Get notes
         $notes = new Collection();
         foreach($topics as $topic){
-            $notes = $notes->merge($topic->notes()->get());
+            if($weeks_arr==[])
+                $notes = $notes->merge($topic->notes);
+            else{
+                foreach($weeks_arr as $week){
+                    $notes = $notes->merge($topic->notes->where('week',$week));
+                }
+            }
         }
          return view('notes.index',['notes'=>$notes, 'topics'=>$topics, 'module'=>$module, 'filters'=>$filters]);
     }
