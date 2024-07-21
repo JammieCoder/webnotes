@@ -56,16 +56,19 @@ class NoteController extends Controller
 
         // Get notes
         $notes = new Collection();
+        $weeks=$weeks_arr;
+        if($weeks_arr==[])
+            $weeks=range(0,12);
         foreach($topics as $topic){
-            if($weeks_arr==[])
-                $notes = $notes->merge($topic->notes);
-            else{
-                foreach($weeks_arr as $week){
-                    $notes = $notes->merge($topic->notes->where('week',$week));
-                }
+            // For each week (retaining week order)
+            foreach($weeks as $week){
+                $notes = $notes->merge($topic->notes->where('week',$week));
             }
         }
-         return view('notes.index',['notes'=>$notes, 'module'=>$module, 'filters'=>$filters]);
+         return view('notes.index',['notes'=>$notes, 'module'=>$module,
+            'filters'=>$filters, 'selected_topics'=>$topics_arr,
+                'selected_weeks'=>$weeks_arr, 'topics'=>$topics,
+                'weeks_arr'=>$weeks]);
     }
 
     /**
