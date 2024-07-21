@@ -4,7 +4,7 @@
             @csrf
             <div class="flex flex-col divide-y-2 divide-gray-400 border-2
                 border-gray-600 mt-10" x-data='{ checked: @json($filters) }'>
-                @foreach($topics as $topic)
+                @foreach($module->topics as $topic)
                     <input name="t{{$topic->id}}" id="t{{$topic->id}}" type="checkbox" x-model="checked['t{{$topic->id}}']" class="hidden"/>
                     <label for="t{{$topic->id}}" x-bind:class="checked['t{{$topic->id}}']?'bg-orange-300':'hover:text-orange-500'"> {{$topic->name}}</label>
                 @endforeach

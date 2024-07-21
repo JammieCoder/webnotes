@@ -43,7 +43,16 @@ class NoteController extends Controller
             return redirect()->route('dashboard');
         //Find the relating module record or fail if not found
         $module=Module::findOrFail($module);
-        $topics=$module->topics;
+
+        // Convert the topic array to Topic objects
+        if($topics_arr==[])
+            $topics=$module->topics;
+        else{
+            $topics=new Collection();
+            foreach($topics_arr as $topic_id){
+                $topics->add(Topic::where('module_id',$module->id)->find($topic_id));
+            }
+        }
 
         // Get notes
         $notes = new Collection();
@@ -56,7 +65,7 @@ class NoteController extends Controller
                 }
             }
         }
-         return view('notes.index',['notes'=>$notes, 'topics'=>$topics, 'module'=>$module, 'filters'=>$filters]);
+         return view('notes.index',['notes'=>$notes, 'module'=>$module, 'filters'=>$filters]);
     }
 
     /**
