@@ -17,34 +17,24 @@
     <body class="font-sans antialiased bg-gray-200">
         <header class="">
             <nav class="flex flex-col">
-                @if (Route::has('login'))
-                    <div class="flex justify-end text-xs bg-orange-300">
-                        @auth
-                            <a
-                                href="{{ url('/dashboard') }}"
+                <div class="flex justify-end text-xs bg-orange-300">
+                    <a
+                        href="{{ url('/dashboard') }}"
+                        class="rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                        >
+                        Dashboard
+                    </a>
+                        <form method="POST" action="/">
+                            @csrf
+                            @method('DELETE')
+                            <button
+                                type="submit"
                                 class="rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                                 >
-                                Dashboard
-                            </a>
-                        @else
-                            <a
-                                href="{{ route('login') }}"
-                                class="rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
-                                >
-                                Log in
-                            </a>
-
-                                @if (Route::has('register'))
-                                    <a
-                                        href="{{ route('register') }}"
-                                        class="rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
-                                        >
-                                        Register
-                                    </a>
-                                @endif
-                            @endauth
-                    </div>
-                @endif
+                                Logout
+                            </button>
+                        </form>
+                </div>
                 <div class="flex flex-auto bg-gray-300 divide-x divide-gray-400">
                     @foreach(\App\Models\Module::all() as $module)
                         <a

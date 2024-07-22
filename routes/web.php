@@ -9,13 +9,20 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
-Route::view('/dashboard', 'dashboard')->name('dashboard');
-Route::view('/login','auth.login')->name('login');
-Route::get('/notes',[NoteController::class, 'index'])->name('notes');
-Route::get('/modules/{module}',[ModuleController::class, 'show']);
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('google')->redirect();
+Route::view('/','home')->name('home');
+Route::delete('/',function(){
+    Auth::logout();
+    return view('home');
 });
+
+Route::view('/dashboard', 'dashboard')->name('dashboard')->middleware('auth');
+Route::get('/notes',[NoteController::class, 'index'])->name('notes')->middleware('auth');
+Route::get('/modules/{module}',[ModuleController::class, 'show'])->middleware('auth');
+Route::get('/auth/redirect', function () {
+    if(Auth::check())
+        return redirect()->route('dashboard');
+    return Socialite::driver('google')->redirect();
+})->name('login');
 
 Route::get('/auth/callback', function () {
     $googleUser = Socialite::driver('google')->user();
