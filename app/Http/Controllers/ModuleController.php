@@ -37,7 +37,7 @@ class ModuleController extends Controller
 
         ]);
         // A new directory is created for each of the user's modules
-        Storage::disk('local')->makeDirectory(Auth::user()->id.'/'.$module->title);
+        Storage::makeDirectory(Auth::user()->id.'/'.$module->title);
         return redirect()->action([ModuleController::class, 'show'], $module);
     }
 
@@ -74,6 +74,19 @@ class ModuleController extends Controller
      */
     public function destroy(Module $module)
     {
-        //
+       // Archive the directory
+       $from=$module->user->id."/".$module->title;
+       $to="";
+       $files=Storage::allFiles($from);
+       foreach($files as $file){
+            $to=$module->user->id."/Archive".strtok($file, $module->user->id);
+            Storage::move($file,$to);
+       }
+       Storage::deleteDirectory($from);
+
+       // Delete the module record
+       $module->delete();
+
+       return redirect()->route('dashboard');
     }
 }

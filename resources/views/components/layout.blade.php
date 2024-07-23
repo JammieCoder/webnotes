@@ -35,15 +35,41 @@
                             </button>
                         </form>
                 </div>
-                <div class="flex flex-auto bg-gray-300 divide-x divide-gray-400
-                    place-content-center" x-data="{ add: false }">
+                <div class="flex flex-auto relative bg-gray-300 divide-x divide-gray-400
+                    place-content-center" x-data="{ add: false, edit: false }">
                     @foreach(Auth::user()->modules as $module)
-                        <a
-                            href="{{ url('/modules/'.$module->id) }}"
-                            class="flex text-base items-center text-center px-3 pb-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
-                            >
-                            {{$module->title}}
-                        </a>
+                        <div class="relative flex">
+                            <a
+                                href="{{ url('/modules/'.$module->id) }}"
+                                class="flex text-base items-center text-center px-3 pb-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                >
+                                {{$module->title}}
+                            </a>
+                            <button
+                                type="button"
+                                x-show="edit"
+                                @click="document.getElementById('dialog{{$module->id}}').showModal()"
+                                class="rounded-3xl leading-6 bg-red-500
+                                absolute top-0 right-0 text-2xl">
+                                x
+                            </button>
+                            <dialog id="dialog{{$module->id}}">
+                                <form method="POST" action="/modules/{{$module->id}}" class="p-5 border-red-500 border-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <p>Are you sure you want to delete this module:</p>
+                                    <p class="text-center"><strong>{{$module->title}}</strong></p>
+                                    <div class="justify-between flex">
+                                    <button class="flex
+                                rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                        " formmethod="dialog">Cancel</button>
+                                    <button class="flex
+                                rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                        ">Confirm</button>
+                                    </div>
+                                </form>
+                            </dialog>
+                        </div>
                     @endforeach
                     <button
                         type="button"
@@ -66,6 +92,15 @@
                         {{Aire::submit("Create Module")->variant()->orange()}}
                         {{Aire::close()}}
                     </div>
+                    <button
+                        type="button"
+                        @click="edit=!edit"
+                        class="flex absolute right-0 py-4
+                        text-base items-center border-2 bg-red-400 text-center px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                        x-bind:class="edit?'text-black/60 border-6 bg-opacity-60':''"
+                        >
+                        Edit Modules
+                    </button>
                 </div>
             </nav>
         </header>

@@ -25,6 +25,10 @@ Route::get('/notes',[NoteController::class, 'index'])
 Route::post('/modules', [ModuleController::class, 'store'])
     ->middleware('auth')
     ->name('modules.store');
+Route::delete('/modules/{module}',[ModuleController::class,'destroy'])
+    ->middleware('auth')
+    ->can('view','module')
+    ->name('modules.destroy');
 Route::get('/modules/{module}',[ModuleController::class, 'show'])
     ->middleware('auth')
     ->can('view','module');
