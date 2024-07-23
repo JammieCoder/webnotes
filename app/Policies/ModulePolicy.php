@@ -21,7 +21,7 @@ class ModulePolicy
      */
     public function view(User $user, Module $module): bool
     {
-        //
+        return $module->user->is($user);
     }
 
     /**

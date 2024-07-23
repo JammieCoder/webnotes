@@ -4,7 +4,8 @@
             "./resources/**/*.blade.php",
             "./resources/**/*.js",
             "./resources/**/*.vue",
-            "./storage/app/**/*.*"
+            "./storage/app/**/*.*",
+            "./vendor/glhd/aire/**/*.*"
         ],
         theme: {
             extend: {},

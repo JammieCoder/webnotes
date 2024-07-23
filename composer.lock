@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d9ef1ce859b68b17e0908070d842fad",
+    "content-hash": "a576bfa6a66a96f34f9544feea8a0fc8",
     "packages": [
         {
             "name": "brick/math",
@@ -639,6 +639,79 @@
                 }
             ],
             "time": "2023-10-12T05:21:21+00:00"
+        },
+        {
+            "name": "glhd/aire",
+            "version": "2.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/glhd/aire.git",
+                "reference": "8d3fcef75595ca19b40ac172be9ab162a56a6652"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/glhd/aire/zipball/8d3fcef75595ca19b40ac172be9ab162a56a6652",
+                "reference": "8d3fcef75595ca19b40ac172be9ab162a56a6652",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/events": ">=5.8.28 <10.48.0 || >10.48.1 <12.0.0",
+                "illuminate/support": ">=5.8.28 <10.48.0 || >10.48.1 <12.0.0",
+                "illuminate/view": ">=5.8.28 <10.48.0 || >10.48.1 <12.0.0"
+            },
+            "require-dev": {
+                "barryvdh/reflection-docblock": "^2.0",
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "guzzlehttp/guzzle": "~6.0|~7.0",
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^6.24|^7.10|^8|^9|9.x-dev|10.x-dev|dev-master",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^9|^10.5",
+                "symfony/css-selector": "^5.4",
+                "symfony/dom-crawler": "^5.4"
+            },
+            "suggest": {
+                "glhd/aire-tailwind-custom-forms": "Use the Tailwind custom forms plugin for even nicer looking forms"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Galahad\\Aire\\Support\\AireServiceProvider"
+                    ],
+                    "aliases": {
+                        "Aire": "Galahad\\Aire\\Support\\Facades\\Aire"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Galahad\\Aire\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Morrell",
+                    "homepage": "http://www.cmorrell.com"
+                }
+            ],
+            "description": "Modern Laravel form builder. Remembers old input, retrieves error messages and comes with beautiful Tailwind-based markup out of the box.",
+            "keywords": [
+                "Forms",
+                "aire",
+                "laravel",
+                "tailwind"
+            ],
+            "support": {
+                "issues": "https://github.com/glhd/aire/issues",
+                "source": "https://github.com/glhd/aire/tree/2.11.0"
+            },
+            "time": "2024-05-29T20:29:30+00:00"
         },
         {
             "name": "graham-campbell/result-type",

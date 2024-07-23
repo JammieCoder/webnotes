@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreModuleRequest;
 use App\Http\Requests\UpdateModuleRequest;
 use App\Models\Module;
+use Illuminate\Support\Facades\Auth;
 
 class ModuleController extends Controller
 {
@@ -21,7 +22,7 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        //
+        return view('modules.create');
     }
 
     /**
@@ -29,7 +30,8 @@ class ModuleController extends Controller
      */
     public function store(StoreModuleRequest $request)
     {
-        //
+        dd($request->validated());
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -37,7 +39,10 @@ class ModuleController extends Controller
      */
     public function show(Module $module)
     {
-      return redirect()->action([NoteController::class,'index'],['module'=>$module->id,'filters'=>request()->all()]);
+      // Check if the user owns this module
+
+      return redirect()->action([NoteController::class,'index'],
+        ['filters'=>request()->all()]);
     }
 
     /**

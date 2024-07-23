@@ -10,6 +10,7 @@ use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
@@ -22,27 +23,27 @@ class NoteController extends Controller
     public function index(Request $request)
     {
         //process week and topic filters
-        $topics_arr=[];
-        $weeks_arr=[];
-        $filters=[];
-        if(!is_null($request->filters)){
-            $filters=array_filter($request->filters,fn($k)=> $k!='_token',
+        if(is_null($request->filters))
+            return redirect()->route('dashboard');
+        $filters=array_filter($request->filters,fn($k)=> $k!='_token',
                 ARRAY_FILTER_USE_KEY);
-            $filters=array_map(fn()=>true, $filters);
-            $topics_arr=array_filter($filters,fn($k) => $k[0]=='t',
+        $filters=array_map(fn()=>true, $filters);
+        $topics_arr=array_filter($filters,fn($k) => $k[0]=='t',
                 ARRAY_FILTER_USE_KEY); //array of topic ids
-            $weeks_arr=array_filter($filters,fn($k) => $k[0]=='w',
+        $weeks_arr=array_filter($filters,fn($k) => $k[0]=='w',
                 ARRAY_FILTER_USE_KEY);
-            $topics_arr = array_map(fn($v)=>substr($v,1), array_keys($topics_arr));
-            $weeks_arr = array_map(fn($v)=>substr($v,1), array_keys($weeks_arr));
-        }
+        $topics_arr = array_map(fn($v)=>substr($v,1), array_keys($topics_arr));
+        $weeks_arr = array_map(fn($v)=>substr($v,1), array_keys($weeks_arr));
 
-        $module=$request->module;
-        //If no module is passed then return to dashboard
+
+        $module=$request->filters->module;
         if(is_null($module))
             return redirect()->route('dashboard');
         //Find the relating module record or fail if not found
         $module=Module::findOrFail($module);
+        // Check the user owns this module
+        Gate::authorize('view', $module);
+
 
         // Convert the topic array to Topic objects
         if($topics_arr==[])

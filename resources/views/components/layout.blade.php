@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>WebNotes</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -35,15 +35,22 @@
                             </button>
                         </form>
                 </div>
-                <div class="flex flex-auto bg-gray-300 divide-x divide-gray-400">
-                    @foreach(\App\Models\Module::all() as $module)
+                <div class="flex flex-auto bg-gray-300 divide-x divide-gray-400
+                    place-content-center">
+                    @foreach(Auth::user()->modules as $module)
                         <a
                             href="{{ url('/modules/'.$module->id) }}"
-                            class="text-base text-center px-3 pb-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                            class="flex text-base items-center text-center px-3 pb-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                             >
                             {{$module->title}}
                         </a>
                     @endforeach
+                    <a
+                        href="{{ url('/modules/create') }}"
+                        class="flex text-base items-center text-center px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                        >
+                        Add<strong class="text-5xl mb-3">+</strong> Module
+                    </a>
                 </div>
             </nav>
         </header>
