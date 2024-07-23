@@ -9,14 +9,19 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
-Route::view('/','home')->name('home');
+Route::get('/',fn()=>Auth::check()?redirect()->route('dashboard'):view('home'))
+    ->name('home');
 Route::delete('/',function(){
     Auth::logout();
     return view('home');
 });
+Route::view('/dashboard', 'dashboard')
+    ->name('dashboard')
+    ->middleware('auth');
 
-Route::view('/dashboard', 'dashboard')->name('dashboard')->middleware('auth');
-Route::get('/notes',[NoteController::class, 'index'])->middleware('auth')->name('notes');
+Route::get('/notes',[NoteController::class, 'index'])
+    ->middleware('auth')
+    ->name('notes');
 Route::post('/modules', [ModuleController::class, 'store'])
     ->middleware('auth')
     ->name('modules.store');

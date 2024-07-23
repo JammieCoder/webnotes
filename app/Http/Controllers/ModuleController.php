@@ -6,6 +6,7 @@ use App\Http\Requests\StoreModuleRequest;
 use App\Http\Requests\UpdateModuleRequest;
 use App\Models\Module;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ModuleController extends Controller
 {
@@ -30,12 +31,14 @@ class ModuleController extends Controller
      */
     public function store(StoreModuleRequest $request)
     {
-        Module::create([
+        $module = Module::create([
             'user_id'=>Auth::user()->id,
             'title'=>$request->validated()['title'],
 
         ]);
-        return redirect()->route('dashboard');
+        // A new directory is created for each of the user's modules
+        Storage::disk('local')->makeDirectory(Auth::user()->id.'/'.$module->title);
+        return redirect()->action([ModuleController::class, 'show'], $module);
     }
 
     /**
