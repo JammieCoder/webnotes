@@ -36,7 +36,7 @@ class NoteController extends Controller
         $weeks_arr = array_map(fn($v)=>substr($v,1), array_keys($weeks_arr));
 
 
-        $module=$request->filters->module;
+        $module=$request->filters['module'];
         if(is_null($module))
             return redirect()->route('dashboard');
         //Find the relating module record or fail if not found

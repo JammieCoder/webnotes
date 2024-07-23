@@ -20,8 +20,6 @@ Route::get('/notes',[NoteController::class, 'index'])->middleware('auth')->name(
 Route::post('/modules', [ModuleController::class, 'store'])
     ->middleware('auth')
     ->name('modules.store');
-Route::get('/modules/create',[ModuleController::class, 'create'])
-    ->middleware('auth');
 Route::get('/modules/{module}',[ModuleController::class, 'show'])
     ->middleware('auth')
     ->can('view','module');

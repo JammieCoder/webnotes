@@ -22,7 +22,7 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        return view('modules.create');
+        //
     }
 
     /**
@@ -30,7 +30,11 @@ class ModuleController extends Controller
      */
     public function store(StoreModuleRequest $request)
     {
-        dd($request->validated());
+        Module::create([
+            'user_id'=>Auth::user()->id,
+            'title'=>$request->validated()['title'],
+
+        ]);
         return redirect()->route('dashboard');
     }
 
@@ -39,10 +43,11 @@ class ModuleController extends Controller
      */
     public function show(Module $module)
     {
+      $filters = request()->all();
+      $filters['module']=$module->id;
       // Check if the user owns this module
-
       return redirect()->action([NoteController::class,'index'],
-        ['filters'=>request()->all()]);
+        ['filters'=>$filters]);
     }
 
     /**

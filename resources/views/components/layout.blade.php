@@ -36,7 +36,7 @@
                         </form>
                 </div>
                 <div class="flex flex-auto bg-gray-300 divide-x divide-gray-400
-                    place-content-center">
+                    place-content-center" x-data="{ add: false }">
                     @foreach(Auth::user()->modules as $module)
                         <a
                             href="{{ url('/modules/'.$module->id) }}"
@@ -45,12 +45,27 @@
                             {{$module->title}}
                         </a>
                     @endforeach
-                    <a
-                        href="{{ url('/modules/create') }}"
+                    <button
+                        type="button"
+                        @click="add=true"
+                        x-show="!add"
                         class="flex text-base items-center text-center px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                         >
                         Add<strong class="text-5xl mb-3">+</strong> Module
-                    </a>
+                    </button>
+                    <div x-show="add">
+                        {{Aire::resourceful(new \App\Models\Module())}}
+                        {{Aire::input("title", "Module Title")}}
+                        @if($errors->any())
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li class="text-red-500 text-xs">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                        {{Aire::submit("Create Module")->variant()->orange()}}
+                        {{Aire::close()}}
+                    </div>
                 </div>
             </nav>
         </header>

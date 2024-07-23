@@ -11,6 +11,8 @@ class Module extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'user_id'];
+
     public function topics(): HasMany {
         return $this->hasMany(Topic::class);
     }
