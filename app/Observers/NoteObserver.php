@@ -24,11 +24,13 @@ class NoteObserver
     }
 
     /**
-     * Handle the Note "deleted" event.
+     * Handle the Note "deleting" event.
      */
-    public function deleted(Note $note): void
+    public function deleting(Note $note): void
     {
-        //
+        $userId = $note->module->user->id;
+        $archiveDir = $userId."/Archive/".strtok($note->filename,$userId);
+        Storage::move($note->filename, $archiveDir);
     }
 
     /**

@@ -74,18 +74,17 @@ class ModuleController extends Controller
      */
     public function destroy(Module $module)
     {
-       // Archive the directory
-       $from=$module->user->id."/".$module->title;
-       $to="";
-       $files=Storage::allFiles($from);
-       foreach($files as $file){
-            $to=$module->user->id."/Archive".strtok($file, $module->user->id);
-            Storage::move($file,$to);
-       }
-       Storage::deleteDirectory($from);
 
-       // Delete the module record
+       // Delete the module record and all notes within
+       foreach($module->notes as $note){
+            // must manually delete the notes to trigger the 'deleting' event for each note
+            $note->delete();
+        }
        $module->delete();
+
+       // Archive the directory
+       Storage::deleteDirectory($module->user->id."/".$module->title);
+
 
        return redirect()->route('dashboard');
     }
