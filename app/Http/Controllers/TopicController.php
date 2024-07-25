@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTopicRequest;
 use App\Http\Requests\UpdateTopicRequest;
 use App\Models\Topic;
+use Illuminate\Support\Facades\Auth;
 
 class TopicController extends Controller
 {
@@ -29,7 +30,11 @@ class TopicController extends Controller
      */
     public function store(StoreTopicRequest $request)
     {
-        //
+        $topic = Topic::create([
+            'name' => $request->validated()['name'],
+            'module_id' => $request->validated()['module_id']
+        ]);
+        return back();
     }
 
     /**

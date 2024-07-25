@@ -11,6 +11,8 @@ class Topic extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'module_id'];
+
     public function module(): BelongsTo{
         return $this->belongsTo(Module::class);
     }

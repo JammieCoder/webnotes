@@ -62,10 +62,10 @@
                                     <div class="justify-between flex">
                                     <button class="flex
                                 rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
-                                        " formmethod="dialog">Cancel</button>
+                                         formmethod="dialog">Cancel</button>
                                     <button class="flex
                                 rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
-                                        ">Confirm</button>
+                                        >Confirm</button>
                                     </div>
                                 </form>
                             </dialog>

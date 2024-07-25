@@ -21,7 +21,7 @@ class TopicPolicy
      */
     public function view(User $user, Topic $topic): bool
     {
-        //
+        return $topic->module->user->is($user);
     }
 
     /**

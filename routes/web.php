@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\TopicController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,6 +33,14 @@ Route::delete('/modules/{module}',[ModuleController::class,'destroy'])
 Route::get('/modules/{module}',[ModuleController::class, 'show'])
     ->middleware('auth')
     ->can('view','module');
+
+Route::post('/topics', [TopicController::class, 'store'])
+    ->middleware('auth')
+    ->name('topics.store');
+Route::delete('/topics/{topic}',[TopicController::class,'destroy'])
+    ->middleware('auth')
+    ->can('view','topic')
+    ->name('topics.destroy');
 
 Route::get('/auth/redirect', function () {
     if(Auth::check())
