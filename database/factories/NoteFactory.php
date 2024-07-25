@@ -20,6 +20,7 @@ class NoteFactory extends Factory
         return [
             'filename' => $this->faker->unique()->mimeType(),
             'week' => $this->faker->numberBetween(0,12),
+            'module_id' => Module::factory()
         ];
     }
 }

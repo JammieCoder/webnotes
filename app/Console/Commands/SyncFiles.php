@@ -38,7 +38,7 @@ class SyncFiles extends Command
         // Files to delete from the filesystem
         $filesToDelete = array_diff($filesInDatabase, $filesInStorage);
 
-        // Create missing files in the filesystem
+        // Create missing files in the database
         foreach ($filesToCreate as $filename) {
             $this->info("Adding note: $filename");
             Note::factory()->create(['filename'=>$filename]);

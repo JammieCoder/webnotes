@@ -16,12 +16,13 @@ class NoteSeeder extends Seeder
      */
     public function run(): void
     {
-        $notes = Note::factory(300)->create();
-        foreach($notes as $note){
-            $note
-                ->topics()
-                ->attach(rand(1,Topic::count()));
-            Storage::put($note->filename,'');
+        foreach(Module::all() as $module){
+            $notes = Note::factory(30)->create(['module_id'=>$module->id]);
+            foreach($notes as $note){
+                $note
+                    ->topics()
+                    ->attach($module->topics->pluck('id')->random());
+            }
         }
     }
 }
