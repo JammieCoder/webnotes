@@ -66,6 +66,8 @@ class TopicController extends Controller
      */
     public function destroy(Topic $topic)
     {
-        //
+        $module = $topic->module;
+        $topic->delete();
+        return redirect()->to("/modules/$module->id");
     }
 }
