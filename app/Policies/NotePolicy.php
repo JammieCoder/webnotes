@@ -21,7 +21,7 @@ class NotePolicy
      */
     public function view(User $user, Note $note): bool
     {
-        //
+        return $note->module->user->is($user);
     }
 
     /**

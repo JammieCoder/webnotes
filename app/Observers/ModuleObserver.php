@@ -12,7 +12,8 @@ class ModuleObserver
      */
     public function created(Module $module): void
     {
-        //
+        // A new directory is created for each of the user's modules
+        Storage::makeDirectory($module->user->id."/".$module->title);
     }
 
     /**

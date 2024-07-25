@@ -23,6 +23,19 @@ Route::view('/dashboard', 'dashboard')
 Route::get('/notes',[NoteController::class, 'index'])
     ->middleware('auth')
     ->name('notes');
+Route::post('/notes', [NoteController::class, 'store'])
+    ->middleware('auth')
+    ->name('notes.store');
+Route::delete('/notes/{note}',[NoteController::class,'destroy'])
+    ->middleware('auth')
+    ->can('view','note')
+    ->name('notes.destroy');
+Route::post('/notes/{note}',[NoteController::class,'update'])
+    ->middleware('auth')
+    ->can('view','note')
+    ->name('notes.update');
+
+
 Route::post('/modules', [ModuleController::class, 'store'])
     ->middleware('auth')
     ->name('modules.store');
