@@ -85,7 +85,14 @@ class NoteController extends Controller
      */
     public function store(StoreNoteRequest $request)
     {
-        dd($request);
+        $note = Note::create([
+            'week'=>$request->validated()['week'],
+            'filename'=>$request->validated()['filename'],
+            'module_id'=>$request->validated()['module_id'],
+        ]);
+        if(in_array('topics',array_keys($request->validated())))
+            $note->topics()->attach($request->validated()['topics']);
+        return back();
     }
 
     /**

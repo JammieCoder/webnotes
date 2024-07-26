@@ -25,11 +25,13 @@ class StoreNoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filename' => 'required',
+            // No '/' and one '.' with only "txt", "php", and "html" file extensions
+            'filename' => ['required','not_regex:/^.+\/.+$/','regex:/^.+\.(?:php|html|txt)/'],
             'module_id' => ['required', Rule::in(Auth::user()->modules->pluck('id'))],
             'week' => 'required|integer|max:12|min:0',
-            'topics' => 'array',
-            'topics.*'=>Rule::in(Topic::where('module_id', request()->module_id)->pluck('id')->toArray())
+            'topics' => 'array|nullable',
+            // All topics must be of the same module as the chosen module
+            'topics.*' => Rule::in(Topic::where('module_id', request()->module_id)->pluck('id')->toArray())
         ];
     }
 }
