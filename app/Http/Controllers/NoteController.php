@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
-
 class NoteController extends Controller
 {
     /**
@@ -60,6 +57,8 @@ class NoteController extends Controller
         $weeks=$weeks_arr;
         if($weeks_arr==[])
             $weeks=range(0,12);
+        $notes = $notes->merge(Note::doesntHave('topics')
+            ->where('module_id',$module->id)->get());
         foreach($topics as $topic){
             // For each week (retaining week order)
             foreach($weeks as $week){
@@ -117,7 +116,18 @@ class NoteController extends Controller
      */
     public function update(UpdateNoteRequest $request, Note $note)
     {
-        //
+        $module_id = $request->validated()['module_id'];
+        $note->week=$request->validated()['week'];
+        $note->filename=Auth::user()->id."/".Module::find($module_id)->title."/".$request->validated()['filename'];
+        $note->module_id=$module_id;
+
+        $topics = [];
+        if(in_array('topics',array_keys($request->validated())))
+            $topics=$request->validated()['topics'];
+        $note->topics()->sync($topics);
+        $note->save();
+
+        return back();
     }
 
     /**

@@ -30,7 +30,7 @@ Route::delete('/notes/{note}',[NoteController::class,'destroy'])
     ->middleware('auth')
     ->can('view','note')
     ->name('notes.destroy');
-Route::post('/notes/{note}',[NoteController::class,'update'])
+Route::put('/notes/{note}',[NoteController::class,'update'])
     ->middleware('auth')
     ->can('view','note')
     ->name('notes.update');

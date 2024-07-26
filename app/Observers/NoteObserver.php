@@ -20,7 +20,8 @@ class NoteObserver
      */
     public function updated(Note $note): void
     {
-        //
+        if($note->isDirty('filename'))
+            Storage::move($note->getOriginal('filename'),$note->filename);
     }
 
     /**

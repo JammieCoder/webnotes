@@ -35,7 +35,7 @@
                             </button>
                         </form>
                 </div>
-                <div class="flex flex-auto relative bg-gray-300 divide-x divide-gray-400
+                <div class="flex flex-auto h-14 relative bg-gray-300 divide-x divide-gray-400
                     place-content-center" x-data="{ add: false, edit: false }">
                     @foreach(Auth::user()->modules as $module)
                         <div class="relative flex">
@@ -60,12 +60,12 @@
                                     <p>Are you sure you want to delete this module:</p>
                                     <p class="text-center"><strong>{{$module->title}}</strong></p>
                                     <div class="justify-between flex">
-                                    <button class="flex
-                                rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
-                                         formmethod="dialog">Cancel</button>
-                                    <button class="flex
-                                rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
-                                        >Confirm</button>
+                                        <button class="flex
+                                            rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                            formmethod="dialog">Cancel</button>
+                                        <button class="flex
+                                            rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                            >Confirm</button>
                                     </div>
                                 </form>
                             </dialog>
@@ -79,9 +79,10 @@
                         >
                         Add<strong class="text-5xl mb-3">+</strong> Module
                     </button>
-                    <div x-show="add">
-                        {{Aire::resourceful(new \App\Models\Module())}}
-                        {{Aire::input("title", "Module Title")}}
+                    <form x-show="add" method="post" action="/modules" class="flex flex-row">
+                        @csrf
+                        <label for="name">Module Title:</label>
+                        <input id="title" name="title" />
                         @if($errors->any())
                             <ul>
                                 @foreach($errors->all() as $error)
@@ -89,13 +90,12 @@
                                 @endforeach
                             </ul>
                         @endif
-                        {{Aire::submit("Create Module")->variant()->orange()}}
-                        {{Aire::close()}}
-                    </div>
+                        <button type="submit" class="bg-green-400 w-fit px-2 mx-auto">Create</button>
+                    </form>
                     <button
                         type="button"
                         @click="edit=!edit"
-                        class="flex absolute right-0 py-4
+                        class="flex absolute right-0 h-14
                         text-base items-center border-2 bg-red-400 text-center px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                         x-bind:class="edit?'text-black/60 border-6 bg-opacity-60':''"
                         >
