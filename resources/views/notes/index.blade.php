@@ -121,7 +121,7 @@
                                             <div class="grow border-b border-gray-500"></div>
                                         </div>
                                         @foreach($notes->where('pivot.topic_id',$topic->id)->where('week',$week) as $note)
-                                            <h4 class="text-base">{{$note->filename}}</h4>
+                                            <h4 class="text-base">{{strtok($note->filename,Auth::user()->id)}}</h4>
                                             <section class="border-gray-300 border-2">
                                                 {!!$note->content()!!}
                                             </section>
@@ -143,7 +143,7 @@
                                             <div class="grow border-b border-gray-500"></div>
                                         </div>
                                         @foreach($notes->where('pivot.topic_id',$topic->id)->where('week',$week) as $note)
-                                            <h4 class="text-base">{{$note->filename}}</h4>
+                                            <h4 class="text-base">{{ltrim(strrchr($note->filename,"/"),"/")}}</h4>
                                             <section class="border-gray-300 border-2">
                                                 {!!$note->content()!!}
                                             </section>
