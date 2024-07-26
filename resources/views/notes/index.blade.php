@@ -54,8 +54,8 @@
                                 <p>Are you sure you want to delete this topic:</p>
                                 <p class="text-center"><strong>{{$topic->name}}</strong></p>
                                 <div class="justify-between flex">
-                                    <button class="flex
-                                        rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                    <button class="flex items-center
+                                        rounded-md px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                                         formmethod="dialog">Cancel</button>
                                     <button class="flex
                                         rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
@@ -93,8 +93,8 @@
                 </ul>
             @endif
             <div class="justify-between flex">
-                <button  type="button" class="flex
-                    rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                <button  type="button" class="flex items-center
+                    rounded-md px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                     onclick="document.getElementById('create-note-dialog').close()">Cancel</button>
                 {{Aire::submit()->variant()->orange()}}
             </div>

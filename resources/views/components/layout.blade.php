@@ -20,7 +20,7 @@
                 <div class="flex justify-end text-xs bg-orange-300">
                     <a
                         href="{{ url('/dashboard') }}"
-                        class="rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                        class="rounded-md px-3  text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                         >
                         Dashboard
                     </a>
@@ -29,7 +29,7 @@
                             @method('DELETE')
                             <button
                                 type="submit"
-                                class="rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                class="rounded-md px-3  text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                                 >
                                 Logout
                             </button>
@@ -41,7 +41,7 @@
                         <div class="relative flex">
                             <a
                                 href="{{ url('/modules/'.$module->id) }}"
-                                class="flex text-base items-center text-center px-3 pb-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                class="flex text-base items-center text-center px-3  text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                                 >
                                 {{$module->title}}
                             </a>
@@ -61,10 +61,10 @@
                                     <p class="text-center"><strong>{{$module->title}}</strong></p>
                                     <div class="justify-between flex">
                                         <button class="flex
-                                            rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                            rounded-md px-3  text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                                             formmethod="dialog">Cancel</button>
                                         <button class="flex
-                                            rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                            rounded-md px-3  text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
                                             >Confirm</button>
                                     </div>
                                 </form>
@@ -81,7 +81,7 @@
                     </button>
                     <form x-show="add" method="post" action="/modules" class="flex flex-row">
                         @csrf
-                        <label for="name">Module Title:</label>
+                        <label for="name" class="w-fit px-2 mx-auto flex items-center">Module Title:</label>
                         <input id="title" name="title" />
                         @if($errors->any())
                             <ul>

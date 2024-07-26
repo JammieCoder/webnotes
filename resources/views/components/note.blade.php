@@ -19,7 +19,7 @@
 <dialog id='delete-n{{$note->id}}-dialog' class="p-5 border-red-500 border-2">
     {{Aire::open()->route('notes.destroy', $note)}}
     <p>Are you sure you want to delete this note:</p>
-    <p class="text-center"><strong>{{$note->filename}}</strong></p>
+    <p class="text-center"><strong>{{ltrim(strrchr($note->filename,"/"),"/")}}</strong></p>
     <p class="my-2">(Your notes will be moved to your '/Archive' folder)</p>
     @if($errors->any())
         <ul>
@@ -56,7 +56,7 @@
         <button  type="button" class="flex items-center
             rounded-md px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
             onclick="document.getElementById('edit-n{{$note->id}}-dialog').close()">Cancel</button>
-        {{Aire::submit()->variant()->green()}}
+        {{Aire::submit()->variant()->orange()}}
     </div>
     {{Aire::close()}}
 </dialog>
