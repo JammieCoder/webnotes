@@ -42,12 +42,12 @@
                             <button
                                 type="button"
                                 x-show="edit"
-                                @click="document.getElementById('dialog{{$topic->id}}').showModal()"
+                                @click="document.getElementById('delete-t{{$topic->id}}-dialog').showModal()"
                                 class="bg-red-500 text-2xl leading-6 px-1 flex-none">
                                 x
                             </button>
                         </div>
-                        <dialog id="dialog{{$topic->id}}">
+                        <dialog id="delete-t{{$topic->id}}-dialog">
                             <form method="POST" action="/topics/{{$topic->id}}" class="p-5 border-red-500 border-2">
                                 @csrf
                                 @method('DELETE')
@@ -121,7 +121,7 @@
                                             <div class="grow border-b border-gray-500"></div>
                                         </div>
                                         @foreach($notes->where('pivot.topic_id',$topic->id)->where('week',$week) as $note)
-                                            <h4 class="text-base">{{strtok($note->filename,Auth::user()->id)}}</h4>
+                                            <h4 class="text-base">{{ltrim(strrchr($note->filename,"/"),"/")}}</h4>
                                             <section class="border-gray-300 border-2">
                                                 {!!$note->content()!!}
                                             </section>
@@ -143,7 +143,35 @@
                                             <div class="grow border-b border-gray-500"></div>
                                         </div>
                                         @foreach($notes->where('pivot.topic_id',$topic->id)->where('week',$week) as $note)
-                                            <h4 class="text-base">{{ltrim(strrchr($note->filename,"/"),"/")}}</h4>
+                                            <div class="flex justify-between">
+                                                <h4 class="text-base">{{ltrim(strrchr($note->filename,"/"),"/")}}</h4>
+                                                <button
+                                                    type="button"
+                                                    onclick="document.getElementById('delete-n{{$note->id}}-dialog').showModal()"
+                                                    class="rounded-t-md bg-red-400 px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
+                                                    Delete Note
+                                                </button>
+                                            </div>
+                                            <dialog id='delete-n{{$note->id}}-dialog' class="p-5 border-red-500 border-2">
+                                                {{Aire::open()->route('notes.destroy', $note)}}
+                                                <p>Are you sure you want to delete this note:</p>
+                                                <p class="text-center"><strong>{{$note->filename}}</strong></p>
+                                                <p class="my-2">(Your notes will be moved to your '/Archive' folder)</p>
+                                                @if($errors->any())
+                                                    <ul>
+                                                        @foreach($errors->all() as $error)
+                                                            <li class="text-red-500 text-xs">{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+                                                <div class="justify-between flex">
+                                                    <button  type="button" class="flex items-center
+                                                        rounded-md px-3 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                                                        onclick="document.getElementById('delete-n{{$note->id}}-dialog').close()">Cancel</button>
+                                                    {{Aire::submit()->variant()->red()}}
+                                                </div>
+                                                {{Aire::close()}}
+                                            </dialog>
                                             <section class="border-gray-300 border-2">
                                                 {!!$note->content()!!}
                                             </section>
