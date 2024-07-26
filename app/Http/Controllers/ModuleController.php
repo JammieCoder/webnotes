@@ -36,8 +36,6 @@ class ModuleController extends Controller
             'title'=>$request->validated()['title'],
 
         ]);
-        // A new directory is created for each of the user's modules
-        Storage::makeDirectory(Auth::user()->id.'/'.$module->title);
         return redirect()->action([ModuleController::class, 'show'], $module);
     }
 
