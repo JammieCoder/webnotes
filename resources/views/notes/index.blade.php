@@ -76,55 +76,88 @@
                 border-green-500 hover:bg-green-500 hover:text-white" value=Apply />
             </form>
         </div>
-        <div class="col-span-7">
-            @if(count($selected_topics) == 0 && count($selected_weeks) > 0 )
-                @foreach($weeks_arr as $week)
-                    @if($notes->where('week',$week)->count() > 0)
-                        <h2 class="text-center text-3xl underline font-bold"/>Week {{$week}}</h2>
-                        @foreach($topics as $topic)
-                            @if($notes->where('pivot.topic_id',$topic->id)->where('week',$week)->count() > 0)
-                                <div class="flex items-center">
-                                    <div class="grow border-b border-gray-500"></div>
-                                    <h3 class="text-center text-lg"/>{{$topic->name}}</h3>
-                                    <div class="grow border-b border-gray-500"></div>
-                                </div>
-                                @foreach($notes->where('pivot.topic_id',$topic->id)->where('week',$week) as $note)
-                                    <h4 class="text-base">{{$note->filename}}</h4>
-                                    <section class="border-gray-300 border-2">
-                                        {!!$note->content()!!}
-                                    </section>
-                                @endforeach
-                            @endif
+        <dialog id='create-note-dialog' class="p-5 border-red-500 border-2">
+                {{Aire::resourceful(new \App\Models\Note())}}
+                {{Aire::input('filename', 'Enter the filename')}}
+                {{Aire::number('week', 'Enter which week')->value(0)->min(0)->max(12)}}
+                {{Aire::select($topics->mapWithKeys(fn($topic)=>[$topic->id=>$topic->name])->toArray(), 'topics', "Choose the topics it's associated with")
+                ->multiple()}}
+                <div class="hidden">
+                {{Aire::number('module_id', 'Module id')->value($module->id)}}
+                </div>
+                @if($errors->any())
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li class="text-red-500 text-xs">{{ $error }}</li>
                         @endforeach
-                    @endif
-                @endforeach
+                    </ul>
+                @endif
+                <div class="justify-between flex">
+                    <button  type="button" class="flex
+                        rounded-md px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                        onclick="document.getElementById('create-note-dialog').close()">Cancel</button>
+                    {{Aire::submit()->variant()->orange()}}
+                </div>
+                {{Aire::close()}}
+        </dialog>
+        <div class="col-span-7 relative">
+            <button
+                type="button"
+                onclick="document.getElementById('create-note-dialog').showModal()"
+                class="absolute top-3 right-3 rounded-md bg-green-400 px-3 pb-1 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
+                Create New Note
+            </button>
 
-            @else
-                @foreach($topics as $topic)
-                    @if($notes->where('pivot.topic_id',$topic->id)->count() > 0)
-                        <h2 class="text-center text-3xl underline font-bold"/>{{$topic->name}}</h2>
+                <div class="mt-8">
+                    @if(count($selected_topics) == 0 && count($selected_weeks) > 0 )
                         @foreach($weeks_arr as $week)
-                            @if($notes->where('pivot.topic_id',$topic->id)->where('week',$week)->count() > 0)
-                                <div class="flex items-center">
-                                    <div class="grow border-b border-gray-500"></div>
-                                    <h3 class="text-center text-lg"/>Week {{$week}}</h3>
-                                    <div class="grow border-b border-gray-500"></div>
-                                </div>
-                                @foreach($notes->where('pivot.topic_id',$topic->id)->where('week',$week) as $note)
-                                    <h4 class="text-base">{{$note->filename}}</h4>
-                                    <section class="border-gray-300 border-2">
-                                        {!!$note->content()!!}
-                                    </section>
+                            @if($notes->where('week',$week)->count() > 0)
+                                <h2 class="text-center text-3xl underline font-bold"/>Week {{$week}}</h2>
+                                @foreach($topics as $topic)
+                                    @if($notes->where('pivot.topic_id',$topic->id)->where('week',$week)->count() > 0)
+                                        <div class="flex items-center">
+                                            <div class="grow border-b border-gray-500"></div>
+                                            <h3 class="text-center text-lg"/>{{$topic->name}}</h3>
+                                            <div class="grow border-b border-gray-500"></div>
+                                        </div>
+                                        @foreach($notes->where('pivot.topic_id',$topic->id)->where('week',$week) as $note)
+                                            <h4 class="text-base">{{$note->filename}}</h4>
+                                            <section class="border-gray-300 border-2">
+                                                {!!$note->content()!!}
+                                            </section>
+                                        @endforeach
+                                    @endif
                                 @endforeach
                             @endif
                         @endforeach
-                    @endif
-                @endforeach
 
-            @endif
-            @if($notes->count() == 0)
-                <h2 class="text-5xl text-center align-middle">No Notes Found</h2>
-            @endif
+                    @else
+                        @foreach($topics as $topic)
+                            @if($notes->where('pivot.topic_id',$topic->id)->count() > 0)
+                                <h2 class="text-center text-3xl underline font-bold"/>{{$topic->name}}</h2>
+                                @foreach($weeks_arr as $week)
+                                    @if($notes->where('pivot.topic_id',$topic->id)->where('week',$week)->count() > 0)
+                                        <div class="flex items-center">
+                                            <div class="grow border-b border-gray-500"></div>
+                                            <h3 class="text-center text-lg"/>Week {{$week}}</h3>
+                                            <div class="grow border-b border-gray-500"></div>
+                                        </div>
+                                        @foreach($notes->where('pivot.topic_id',$topic->id)->where('week',$week) as $note)
+                                            <h4 class="text-base">{{$note->filename}}</h4>
+                                            <section class="border-gray-300 border-2">
+                                                {!!$note->content()!!}
+                                            </section>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+
+                    @endif
+                    @if($notes->count() == 0)
+                        <h2 class="text-5xl text-center align-middle">No Notes Found</h2>
+                    @endif
+                </div>
         </div>
     </div>
 </x-layout>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Topic;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreNoteRequest extends FormRequest
 {
@@ -11,7 +14,7 @@ class StoreNoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +25,11 @@ class StoreNoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'filename' => 'required',
+            'module_id' => ['required', Rule::in(Auth::user()->modules->pluck('id'))],
+            'week' => 'required|integer|max:12|min:0',
+            'topics' => 'array',
+            'topics.*'=>Rule::in(Topic::where('module_id', request()->module_id)->pluck('id')->toArray())
         ];
     }
 }
