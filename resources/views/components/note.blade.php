@@ -60,6 +60,6 @@
     </div>
     {{Aire::close()}}
 </dialog>
-<section class="border-gray-300 border-2">
-    {!!$note->content()!!}
+<section class="prose max-w-full w-full border-gray-300 border-2">
+    {!! eval('?>'.Blade::compileString($note->content())) !!}
 </section>

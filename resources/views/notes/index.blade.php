@@ -1,7 +1,7 @@
 <x-layout>
-    <div class="grid grid-cols-8 grid-rows-1">
+    <div class="float-left">
         <div class="flex flex-col divide-y-2 divide-gray-400 border-2
-            border-gray-600 mt-10 col-span-1" x-data='{ checked: @json($filters) }' >
+            border-gray-600 mt-10 float-left"  x-data='{ checked: @json($filters) }' >
             <div x-data="{ add:false, edit: false  }" class="flex flex-col divide-y-2 divide-gray-400" >
                 <button
                     type="button"
@@ -100,7 +100,7 @@
             </div>
             {{Aire::close()}}
         </dialog>
-        <div class="col-span-7 relative">
+        <div class="relative flex">
             <button
                 type="button"
                 onclick="document.getElementById('create-note-dialog').showModal()"

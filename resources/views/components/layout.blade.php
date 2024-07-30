@@ -13,6 +13,7 @@
         <!-- Styles -->
         @vite('resources/css/app.css')
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </head>
     <body class="font-sans antialiased bg-gray-200">
         <header class="">
@@ -105,7 +106,7 @@
             </nav>
         </header>
 
-        <main class="">
+        <main>
             {{$slot}}
         </main>
 
